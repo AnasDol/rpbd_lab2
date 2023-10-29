@@ -1,9 +1,6 @@
 package utils;
 
-import models.Breed;
-import models.Client;
-import models.Exhibition;
-import models.Position;
+import models.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -19,6 +16,10 @@ public class HibernateSessionFactoryUtil {
                 configuration.addAnnotatedClass(Client.class);
                 configuration.addAnnotatedClass(Position.class);
                 configuration.addAnnotatedClass(Exhibition.class);
+                configuration.addAnnotatedClass(Employee.class);
+                configuration.addAnnotatedClass(Animal.class);
+                configuration.addAnnotatedClass(Participation.class);
+                configuration.addAnnotatedClass(Request.class);
                 StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
                 sessionFactory = configuration.buildSessionFactory(builder.build());
             } catch (Exception e) {
