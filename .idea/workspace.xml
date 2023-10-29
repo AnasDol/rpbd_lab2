@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9f45ff65-1094-4a79-b91e-94ae311c7f88" name="Changes" comment="initial commit">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dao/ClientDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/models/Client.java" afterDir="false" />
+    <list default="true" id="9f45ff65-1094-4a79-b91e-94ae311c7f88" name="Changes" comment="Client &amp; Client Dao added">
+      <change afterPath="$PROJECT_DIR$/src/main/java/dao/ExhibitionDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dao/PositionDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/Exhibition.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/Position.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/utils/HibernateSessionFactoryUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/HibernateSessionFactoryUtil.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -54,6 +55,12 @@
     ]
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="dao" />
+      <recent name="models" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="App" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
@@ -71,7 +78,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1698560853918</updated>
-      <workItem from="1698560856548" duration="5603000" />
+      <workItem from="1698560856548" duration="7258000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <created>1698563452216</created>
@@ -80,7 +87,14 @@
       <option name="project" value="LOCAL" />
       <updated>1698563452216</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Client &amp; Client Dao added">
+      <created>1698567006936</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1698567006936</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -99,6 +113,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="initial commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="initial commit" />
+    <MESSAGE value="Client &amp; Client Dao added" />
+    <option name="LAST_COMMIT_MESSAGE" value="Client &amp; Client Dao added" />
   </component>
 </project>
