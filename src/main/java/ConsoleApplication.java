@@ -1,10 +1,12 @@
 import dao.GenericDao;
 import models.Animal;
 import models.Breed;
+import models.MyEntity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import utils.HibernateSessionFactoryUtil;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -84,7 +86,8 @@ public class ConsoleApplication {
                 //addAnimal();
                 break;
             case 2:
-                addBreed();
+                //addBreed();
+                addEntity(Breed.class);
                 break;
             case 3:
                 //addClient();
@@ -111,7 +114,8 @@ public class ConsoleApplication {
                 //updateAnimal();
                 break;
             case 12:
-                updateBreed();
+                //updateBreed();
+                updateEntity(Breed.class);
                 break;
             case 13:
                 //updateClient();
@@ -135,7 +139,8 @@ public class ConsoleApplication {
                 //deleteAnimal();
                 break;
             case 22:
-                deleteBreed();
+                //deleteBreed();
+                deleteEntity(Breed.class);
                 break;
             case 23:
                 //deleteClient();
@@ -165,25 +170,23 @@ public class ConsoleApplication {
 
     }
 
-    private static Breed selectBreed() {
+    private static <T extends MyEntity> T selectEntity(Class<T> entityClass) {
 
-        GenericDao<Breed> breedDao = new GenericDao<>(Breed.class);
+        GenericDao<T> dao = new GenericDao<>(entityClass);
+        List<T> entities = dao.findAll();
 
-        List<Breed> breeds = breedDao.findAll();
-
-        System.out.println("Breed list:");
         int index = 1;
-        for (Breed breed : breeds) {
-            System.out.println(index + ". " + breed);
+        for (T entity : entities) {
+            System.out.println(index + ". " + entity);
             index++;
         }
 
-        System.out.print("Select breed:\n> ");
+        System.out.print("Select:\n> ");
         int choice = scanner.nextInt();
         scanner.nextLine(); // consume newline
 
         try {
-            return breeds.get(choice - 1);
+            return entities.get(choice - 1);
 
         } catch (IndexOutOfBoundsException ex) {
             System.out.println("Invalid choice.");
@@ -194,10 +197,16 @@ public class ConsoleApplication {
 
     private static void enterBreedDetails(Breed breed) {
 
-        System.out.println("Enter Breed details:");
+        System.out.println("Enter Breed details.");
 
         System.out.print("Name: ");
         breed.setName(scanner.nextLine());
+
+    }
+
+    private static <T extends MyEntity> void enterDetails(T entity, Class<T> entityClass) {
+
+        if (entityClass == Breed.class) enterBreedDetails((Breed)entity);
 
     }
 
@@ -221,9 +230,32 @@ public class ConsoleApplication {
         }
     }
 
-    private static void updateBreed() {
+    private static <T extends MyEntity> void addEntity(Class<T> entityClass) {
 
-        Breed selected = selectBreed();
+        T newEntity = null;
+        try {
+            newEntity = entityClass.getDeclaredConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException |
+                 InvocationTargetException | NoSuchMethodException e) {
+            System.out.println("Failed to add data: " + e.getMessage());
+            return;
+        }
+
+        try {
+            enterDetails(newEntity, entityClass);
+        } catch (Exception e) {
+            System.out.println("Failed to add data. There may have been an input error.");
+            return;
+        }
+
+        GenericDao<T> dao = new GenericDao<>(entityClass);
+        dao.save(newEntity);
+
+    }
+
+    private static <T extends MyEntity> void updateEntity(Class<T> entityClass) {
+
+        T selected = selectEntity(entityClass);
         if (selected == null) {
             System.out.println("Failed to update data.");
             return;
@@ -231,31 +263,29 @@ public class ConsoleApplication {
         System.out.println("selected: " + selected);
 
         try {
-            enterBreedDetails(selected);
+            //enterBreedDetails(selected);
+            enterDetails(selected, entityClass);
         } catch (Exception e) {
             System.out.println("Failed to update data. There may have been an input error.");
         }
 
-        GenericDao<Breed> breedDao = new GenericDao<>(Breed.class);
-        breedDao.update(selected);
+        GenericDao<T> dao = new GenericDao<>(entityClass);
+        dao.update(selected);
 
     }
 
-    private static void deleteBreed() {
+    private static <T extends MyEntity> void deleteEntity(Class<T> entityClass) {
 
-        Breed selected = selectBreed();
+        T selected = selectEntity(entityClass);
         if (selected == null) {
             System.out.println("Failed to delete data.");
             return;
         }
         System.out.println("selected: " + selected);
 
-        GenericDao<Breed> breedDao = new GenericDao<>(Breed.class);
-        breedDao.delete(selected);
-
+        GenericDao<T> dao = new GenericDao<>(entityClass);
+        dao.delete(selected);
     }
-
-
 
     private static void showData() {
 

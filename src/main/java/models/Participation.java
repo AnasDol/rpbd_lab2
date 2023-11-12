@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "participations")
-public class Participation {
+public class Participation implements MyEntity {
 
     @EmbeddedId
     private ParticipationId id;

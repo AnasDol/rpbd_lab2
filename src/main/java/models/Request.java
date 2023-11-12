@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "requests")
-public class Request {
+public class Request implements MyEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
