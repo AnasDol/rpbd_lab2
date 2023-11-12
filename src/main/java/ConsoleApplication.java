@@ -1,3 +1,4 @@
+import dao.GenericDao;
 import models.Animal;
 import models.Breed;
 import org.hibernate.Session;
@@ -134,7 +135,7 @@ public class ConsoleApplication {
                 //deleteAnimal();
                 break;
             case 22:
-                //deleteBreed();
+                deleteBreed();
                 break;
             case 23:
                 //deleteClient();
@@ -164,6 +165,42 @@ public class ConsoleApplication {
 
     }
 
+    private static Breed selectBreed() {
+
+        GenericDao<Breed> breedDao = new GenericDao<>(Breed.class);
+
+        List<Breed> breeds = breedDao.findAll();
+
+        System.out.println("Breed list:");
+        int index = 1;
+        for (Breed breed : breeds) {
+            System.out.println(index + ". " + breed);
+            index++;
+        }
+
+        System.out.print("Select breed:\n> ");
+        int choice = scanner.nextInt();
+        scanner.nextLine(); // consume newline
+
+        try {
+            return breeds.get(choice - 1);
+
+        } catch (IndexOutOfBoundsException ex) {
+            System.out.println("Invalid choice.");
+            return null;
+        }
+
+    }
+
+    private static void enterBreedDetails(Breed breed) {
+
+        System.out.println("Enter Breed details:");
+
+        System.out.print("Name: ");
+        breed.setName(scanner.nextLine());
+
+    }
+
     private static void addBreed() {
 
         Breed newEntity = new Breed();
@@ -184,39 +221,6 @@ public class ConsoleApplication {
         }
     }
 
-    private static Breed selectBreed() {
-        try (Session session = sessionFactory.openSession()) {
-
-
-
-            List<Breed> breeds = session.createQuery("FROM Breed", Breed.class).list();
-
-            System.out.println("Breed list:");
-            int index = 1;
-            for (Breed breed : breeds) {
-                System.out.println(index + ". " + breed);
-                index++;
-            }
-
-            System.out.print("Select breed to update:\n> ");
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // consume newline
-
-            try {
-                return breeds.get(choice - 1);
-
-            } catch (IndexOutOfBoundsException ex) {
-                System.out.println("Invalid choice.");
-                return null;
-            }
-
-        } catch (Exception e) {
-            System.out.println("Error retrieving Breed list: " + e.getMessage());
-            return null;
-        }
-
-    }
-
     private static void updateBreed() {
 
         Breed selected = selectBreed();
@@ -232,24 +236,26 @@ public class ConsoleApplication {
             System.out.println("Failed to update data. There may have been an input error.");
         }
 
+        GenericDao<Breed> breedDao = new GenericDao<>(Breed.class);
+        breedDao.update(selected);
 
     }
- try (Session session = sessionFactory.openSession()) {
-        session.beginTransaction();
-        session.update(selected);
-        session.getTransaction().commit();
-        System.out.println("Updated data successfully.");
-    } catch (Exception e) {
-        System.out.println("Failed to update data: " + e.getMessage());
-    }
-    private static void enterBreedDetails(Breed breed) {
 
-        System.out.println("Enter Breed details:");
+    private static void deleteBreed() {
 
-        System.out.print("Name: ");
-        breed.setName(scanner.nextLine());
+        Breed selected = selectBreed();
+        if (selected == null) {
+            System.out.println("Failed to delete data.");
+            return;
+        }
+        System.out.println("selected: " + selected);
+
+        GenericDao<Breed> breedDao = new GenericDao<>(Breed.class);
+        breedDao.delete(selected);
 
     }
+
+
 
     private static void showData() {
 

@@ -50,7 +50,7 @@ public class GenericDao<T> {
     public void delete(T entity) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            session.update(entity);
+            session.delete(entity);
             session.getTransaction().commit();
             session.close();
             System.out.println("Deleted data successfully.");
