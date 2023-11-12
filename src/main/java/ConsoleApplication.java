@@ -1,12 +1,11 @@
 import dao.GenericDao;
-import models.Animal;
-import models.Breed;
-import models.MyEntity;
+import models.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import utils.HibernateSessionFactoryUtil;
 
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Scanner;
 
@@ -83,20 +82,19 @@ public class ConsoleApplication {
                 showData();
                 break;
             case 1:
-                //addAnimal();
+                addEntity(Animal.class);
                 break;
             case 2:
-                //addBreed();
                 addEntity(Breed.class);
                 break;
             case 3:
                 //addClient();
                 break;
             case 4:
-                //addEmployee();
+                addEntity(Employee.class);
                 break;
             case 5:
-                //addPosition();
+                addEntity(Position.class);
                 break;
             case 6:
                 //addExhibition();
@@ -114,17 +112,16 @@ public class ConsoleApplication {
                 //updateAnimal();
                 break;
             case 12:
-                //updateBreed();
                 updateEntity(Breed.class);
                 break;
             case 13:
                 //updateClient();
                 break;
             case 14:
-                //updateEmployee();
+                updateEntity(Employee.class);
                 break;
             case 15:
-                //updatePosition();
+                updateEntity(Position.class);
                 break;
             case 16:
                 //updateExhibition();
@@ -139,17 +136,16 @@ public class ConsoleApplication {
                 //deleteAnimal();
                 break;
             case 22:
-                //deleteBreed();
                 deleteEntity(Breed.class);
                 break;
             case 23:
                 //deleteClient();
                 break;
             case 24:
-                //deleteEmployee();
+                deleteEntity(Employee.class);
                 break;
             case 25:
-                //deletePosition();
+                deleteEntity(Position.class);
                 break;
             case 26:
                 //deleteExhibition();
@@ -204,30 +200,78 @@ public class ConsoleApplication {
 
     }
 
-    private static <T extends MyEntity> void enterDetails(T entity, Class<T> entityClass) {
+    private static void enterAnimalDetails(Animal animal) {
 
-        if (entityClass == Breed.class) enterBreedDetails((Breed)entity);
+        System.out.println("Enter Animal details.");
+
+        System.out.print("Name: ");
+        animal.setName(scanner.nextLine());
+
+        System.out.print("Age: ");
+        animal.setAge(scanner.nextInt());
+        scanner.nextLine(); // consume newline
+
+        System.out.print("Gender (MALE/FEMALE): ");
+        String genderInput = scanner.nextLine();
+        animal.setGender(Gender.fromString(genderInput.toLowerCase()));
+
+        System.out.println("Breed:");
+        animal.setBreed(selectEntity(Breed.class));
+
+        System.out.print("Appearance: ");
+        animal.setAppearance(scanner.nextLine());
+
+        System.out.println("Client:");
+        animal.setClient(selectEntity(Client.class));
+
+        System.out.println("Vet:");
+        animal.setVet(selectEntity(Employee.class)); // временно
+
+        animal.setMother(null);
+        animal.setFather(null);
 
     }
 
-    private static void addBreed() {
+    private static void enterPositionDetails(Position position) {
 
-        Breed newEntity = new Breed();
+        System.out.println("Enter Position details.");
 
-        try {
-            enterBreedDetails(newEntity);
-        } catch (Exception e) {
-            System.out.println("Failed to update data. There may have been an input error.");
-        }
+        System.out.print("Name: ");
+        position.setName(scanner.nextLine());
 
-        try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
-            session.save(newEntity);
-            session.getTransaction().commit();
-            System.out.println("Added data successfully.");
-        } catch (Exception e) {
-            System.out.println("Failed to add data: " + e.getMessage());
-        }
+    }
+
+    private static void enterEmployeeDetails(Employee employee) {
+
+        System.out.println("Enter Employee details.");
+
+        System.out.print("Last name: ");
+        employee.setLastName(scanner.nextLine());
+
+        System.out.print("First name: ");
+        employee.setFirstName(scanner.nextLine());
+
+        System.out.print("Patronymic: ");
+        employee.setPatronymic(scanner.nextLine());
+
+        System.out.print("Address: ");
+        employee.setAddress(scanner.nextLine());
+
+        System.out.println("Position:");
+        employee.setPosition(selectEntity(Position.class));
+
+        System.out.println("Salary:");
+        employee.setSalary(new BigDecimal(scanner.nextInt()));
+
+    }
+
+    private static <T extends MyEntity> void enterDetails(T entity, Class<T> entityClass) {
+
+        if (entityClass == Animal.class) enterAnimalDetails((Animal)entity);
+        else if (entityClass == Breed.class) enterBreedDetails((Breed)entity);
+        else if (entityClass == Employee.class) enterEmployeeDetails((Employee)entity);
+        else if (entityClass == Position.class) enterPositionDetails((Position)entity);
+
     }
 
     private static <T extends MyEntity> void addEntity(Class<T> entityClass) {
@@ -244,7 +288,7 @@ public class ConsoleApplication {
         try {
             enterDetails(newEntity, entityClass);
         } catch (Exception e) {
-            System.out.println("Failed to add data. There may have been an input error.");
+            System.out.println("Failed to add data. There may have been an input error.\nError: " + e.getMessage());
             return;
         }
 

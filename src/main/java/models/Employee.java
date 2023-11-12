@@ -1,5 +1,8 @@
 package models;
 
+import org.hibernate.annotations.ColumnTransformer;
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 
@@ -24,11 +27,16 @@ public class Employee implements MyEntity {
     @Column(name = "address")
     private String address;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "position_id")
     private Position position;
 
     @Column(name = "salary")
+    @Type(type = "big_decimal")
+    @ColumnTransformer(
+            read = "salary::numeric",
+            write = "?::money"
+    )
     private BigDecimal salary;
 
     public Employee(String lastName, String firstName, String patronymic, String address, Position position, BigDecimal salary) {
@@ -38,6 +46,10 @@ public class Employee implements MyEntity {
         this.address = address;
         this.position = position;
         this.salary = salary;
+    }
+
+    public Employee() {
+
     }
 
     public int getId() {

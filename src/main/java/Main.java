@@ -12,32 +12,21 @@ import java.sql.SQLException;
 public class Main {
     public static void main(String[] args) throws SQLException {
 
-        HibernateSessionFactoryUtil.getSessionFactory();
-
-        BreedDao breedDao = new BreedDao();
-        Breed breed = breedDao.findById(12);
-
-        ClientDao clientDao = new ClientDao();
-//        Client client = new Client("Willis", "Bruce", "", "");
-//        clientDao.save(client);
-        Client client = clientDao.findById(11);
-
-        Position position = new PositionDao().findById(1);
-
-        EmployeeDao employeeDao = new EmployeeDao();
-        Employee employee = new Employee("Jog", "The Big", "", "", position, new BigDecimal(1000));
-        employeeDao.save(employee);
-
-        Animal animal = new Animal("Test", 5, Gender.FEMALE, breed, "", client, employee, null, null);
-        AnimalDao animalDao = new AnimalDao();
-        //animalDao.save(animal);
-
-
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
-            Transaction transaction = session.beginTransaction();
-            session.save(animal);
-            transaction.commit();
+            GenericDao<Employee> empDao = new GenericDao<>(Employee.class);
+            GenericDao<Position> posDao = new GenericDao<>(Position.class);
+            Position position = new Position("top");
+            posDao.save(position);
+            BigDecimal salary = new BigDecimal(1000);
+            Employee employee = new Employee("Test", "Toster", "Tristan",
+                    "Tatarstan", position, salary);
+            empDao.save(employee);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
+
+
+
 
         HibernateSessionFactoryUtil.shutdown();
 

@@ -1,12 +1,13 @@
 package dao;
 
+import models.MyEntity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import utils.HibernateSessionFactoryUtil;
 
 import java.util.List;
 
-public class GenericDao<T> {
+public class GenericDao<T extends MyEntity> {
 
     private final Class<T> entityClass;
     private final SessionFactory sessionFactory;
