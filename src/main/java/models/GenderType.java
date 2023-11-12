@@ -12,7 +12,7 @@ import java.sql.Types;
 
 public class GenderType implements UserType {
 
-    private static final int[] SQL_TYPES = { Types.VARCHAR };
+    private static final int[] SQL_TYPES = { Types.OTHER };
 
     @Override
     public int[] sqlTypes() {
@@ -48,9 +48,9 @@ public class GenderType implements UserType {
     @Override
     public void nullSafeSet(PreparedStatement st, Object value, int index, SharedSessionContractImplementor session) throws HibernateException, SQLException {
         if (value == null) {
-            st.setNull(index, Types.VARCHAR);
+            st.setNull(index, Types.OTHER); // Change to Types.OTHER
         } else {
-            st.setString(index, ((Gender) value).getValue());
+            st.setObject(index, ((Gender) value).getValue(), Types.OTHER);
         }
     }
 

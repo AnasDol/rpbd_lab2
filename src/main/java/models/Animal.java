@@ -19,8 +19,9 @@ public class Animal {
     @Column(name = "age")
     private int age;
 
+
     @Type(type = "models.GenderType")
-    @Column(name = "gender", columnDefinition = "gen")
+    @Column(name = "gender")
     private Gender gender;
 
     @ManyToOne
@@ -57,6 +58,10 @@ public class Animal {
         this.vet = vet;
         this.mother = mother;
         this.father = father;
+    }
+
+    public Animal() {
+
     }
 
     public int getId() {

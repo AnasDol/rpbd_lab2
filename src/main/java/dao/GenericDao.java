@@ -1,28 +1,32 @@
 package dao;
 
-import models.Breed;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import utils.HibernateSessionFactoryUtil;
 
 import java.util.List;
 
-public class BreedDao {
+public class GenericDao<T> {
 
+    private final Class<T> entityClass;
     private final SessionFactory sessionFactory;
 
-    public BreedDao() {
+    public GenericDao(Class<T> entityClass) {
+        this.entityClass = entityClass;
         sessionFactory = HibernateSessionFactoryUtil.getSessionFactory();
     }
-    public Breed findById(int id) {
-        return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(Breed.class, id);
+
+    public T findById(int id) {
+        Session session = sessionFactory.openSession();
+        T entity = session.get(entityClass, id);
+        session.close();
+        return entity;
     }
 
-    public void save(Breed breed) {
+    public void save(T entity) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            session.save(breed);
+            session.save(entity);
             session.getTransaction().commit();
             session.close();
             System.out.println("Added data successfully.");
@@ -31,10 +35,10 @@ public class BreedDao {
         }
     }
 
-    public void update(Breed breed) {
+    public void update(T entity) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            session.update(breed);
+            session.update(entity);
             session.getTransaction().commit();
             session.close();
             System.out.println("Updated data successfully.");
@@ -43,10 +47,10 @@ public class BreedDao {
         }
     }
 
-    public void delete(Breed breed) {
+    public void delete(T entity) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            session.update(breed);
+            session.update(entity);
             session.getTransaction().commit();
             session.close();
             System.out.println("Deleted data successfully.");
@@ -55,9 +59,10 @@ public class BreedDao {
         }
     }
 
-    public List<Breed> findAll() {
-        List<Breed> breeds = (List<Breed>) HibernateSessionFactoryUtil.getSessionFactory()
-                .openSession().createQuery("FROM Breed").list();
-        return breeds;
+    public List<T> findAll() {
+       Session session = sessionFactory.openSession();
+       List<T> entities = session.createQuery("FROM " + entityClass.getSimpleName(), entityClass).list();
+       session.close();
+       return entities;
     }
 }
