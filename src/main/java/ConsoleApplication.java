@@ -88,7 +88,7 @@ public class ConsoleApplication {
                 addEntity(Breed.class);
                 break;
             case 3:
-                //addClient();
+                addEntity(Client.class);
                 break;
             case 4:
                 addEntity(Employee.class);
@@ -109,13 +109,13 @@ public class ConsoleApplication {
                 //enterPedigreeInformation();
                 break;
             case 11:
-                //updateAnimal();
+                updateEntity(Animal.class);
                 break;
             case 12:
                 updateEntity(Breed.class);
                 break;
             case 13:
-                //updateClient();
+                updateEntity(Client.class);
                 break;
             case 14:
                 updateEntity(Employee.class);
@@ -133,13 +133,13 @@ public class ConsoleApplication {
                 //updateAnimalParticipationData();
                 break;
             case 21:
-                //deleteAnimal();
+                deleteEntity(Animal.class);
                 break;
             case 22:
                 deleteEntity(Breed.class);
                 break;
             case 23:
-                //deleteClient();
+                deleteEntity(Client.class);
                 break;
             case 24:
                 deleteEntity(Employee.class);
@@ -197,6 +197,24 @@ public class ConsoleApplication {
 
         System.out.print("Name: ");
         breed.setName(scanner.nextLine());
+
+    }
+
+    private static void enterClientDetails(Client client) {
+
+        System.out.println("Enter Client details.");
+
+        System.out.print("Last name: ");
+        client.setLastName(scanner.nextLine());
+
+        System.out.print("First name: ");
+        client.setFirstName(scanner.nextLine());
+
+        System.out.print("Patronymic: ");
+        client.setPatronymic(scanner.nextLine());
+
+        System.out.print("Address: ");
+        client.setAddress(scanner.nextLine());
 
     }
 
@@ -269,6 +287,7 @@ public class ConsoleApplication {
 
         if (entityClass == Animal.class) enterAnimalDetails((Animal)entity);
         else if (entityClass == Breed.class) enterBreedDetails((Breed)entity);
+        else if (entityClass == Client.class) enterClientDetails((Client)entity);
         else if (entityClass == Employee.class) enterEmployeeDetails((Employee)entity);
         else if (entityClass == Position.class) enterPositionDetails((Position)entity);
 
