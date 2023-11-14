@@ -6,6 +6,9 @@ import utils.HibernateSessionFactoryUtil;
 
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -97,10 +100,10 @@ public class ConsoleApplication {
                 addEntity(Position.class);
                 break;
             case 6:
-                //addExhibition();
+                addEntity(Exhibition.class);
                 break;
             case 7:
-                //createNewRequest();
+                addEntity(Request.class);
                 break;
             case 8:
                 //enterAnimalParticipationData();
@@ -124,10 +127,10 @@ public class ConsoleApplication {
                 updateEntity(Position.class);
                 break;
             case 16:
-                //updateExhibition();
+                updateEntity(Exhibition.class);
                 break;
             case 17:
-                //updateRequest();
+                updateEntity(Request.class);
                 break;
             case 18:
                 //updateAnimalParticipationData();
@@ -148,10 +151,10 @@ public class ConsoleApplication {
                 deleteEntity(Position.class);
                 break;
             case 26:
-                //deleteExhibition();
+                deleteEntity(Exhibition.class);
                 break;
             case 27:
-                //deleteRequest();
+                deleteEntity(Request.class);
                 break;
             case 28:
                 //deleteAnimalParticipationData();
@@ -191,33 +194,6 @@ public class ConsoleApplication {
 
     }
 
-    private static void enterBreedDetails(Breed breed) {
-
-        System.out.println("Enter Breed details.");
-
-        System.out.print("Name: ");
-        breed.setName(scanner.nextLine());
-
-    }
-
-    private static void enterClientDetails(Client client) {
-
-        System.out.println("Enter Client details.");
-
-        System.out.print("Last name: ");
-        client.setLastName(scanner.nextLine());
-
-        System.out.print("First name: ");
-        client.setFirstName(scanner.nextLine());
-
-        System.out.print("Patronymic: ");
-        client.setPatronymic(scanner.nextLine());
-
-        System.out.print("Address: ");
-        client.setAddress(scanner.nextLine());
-
-    }
-
     private static void enterAnimalDetails(Animal animal) {
 
         System.out.println("Enter Animal details.");
@@ -247,6 +223,33 @@ public class ConsoleApplication {
 
         animal.setMother(null);
         animal.setFather(null);
+
+    }
+
+    private static void enterBreedDetails(Breed breed) {
+
+        System.out.println("Enter Breed details.");
+
+        System.out.print("Name: ");
+        breed.setName(scanner.nextLine());
+
+    }
+
+    private static void enterClientDetails(Client client) {
+
+        System.out.println("Enter Client details.");
+
+        System.out.print("Last name: ");
+        client.setLastName(scanner.nextLine());
+
+        System.out.print("First name: ");
+        client.setFirstName(scanner.nextLine());
+
+        System.out.print("Patronymic: ");
+        client.setPatronymic(scanner.nextLine());
+
+        System.out.print("Address: ");
+        client.setAddress(scanner.nextLine());
 
     }
 
@@ -283,13 +286,53 @@ public class ConsoleApplication {
 
     }
 
-    private static <T extends MyEntity> void enterDetails(T entity, Class<T> entityClass) {
+    private static void enterExhibitionDetails(Exhibition exhibition) throws ParseException {
+
+        System.out.println("Enter Exhibition details.");
+
+        System.out.print("Name: ");
+        exhibition.setName(scanner.nextLine());
+
+        System.out.print("Address: ");
+        exhibition.setAddress(scanner.nextLine());
+
+        System.out.println("Date [dd.mm.yyyy]: ");
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        Date date = format.parse(scanner.nextLine());
+        exhibition.setExhibitionDate(date);
+
+    }
+
+    private static void enterRequestDetails(Request request) throws ParseException {
+
+        System.out.println("Enter Request details.");
+
+        System.out.println("Client:");
+        request.setClient(selectEntity(Client.class));
+
+        System.out.println("Breed:");
+        request.setBreed(selectEntity(Breed.class));
+
+        System.out.print("Gender (MALE/FEMALE): ");
+        String genderInput = scanner.nextLine();
+        request.setGender(Gender.fromString(genderInput.toLowerCase()));
+
+        System.out.println("Date [dd.mm.yyyy]: ");
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        Date date = format.parse(scanner.nextLine());
+        request.setRequestDate(date);
+
+    }
+
+    private static <T extends MyEntity> void enterDetails(T entity, Class<T> entityClass) throws ParseException {
 
         if (entityClass == Animal.class) enterAnimalDetails((Animal)entity);
         else if (entityClass == Breed.class) enterBreedDetails((Breed)entity);
         else if (entityClass == Client.class) enterClientDetails((Client)entity);
         else if (entityClass == Employee.class) enterEmployeeDetails((Employee)entity);
+        else if (entityClass == Exhibition.class) enterExhibitionDetails((Exhibition) entity);
         else if (entityClass == Position.class) enterPositionDetails((Position)entity);
+        else if (entityClass == Request.class) enterRequestDetails((Request) entity);
 
     }
 

@@ -3,6 +3,7 @@ package models;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -73,5 +74,21 @@ public class Request implements MyEntity {
 
     public void setRequestDate(Date requestDate) {
         this.requestDate = requestDate;
+    }
+
+    public String getFormattedRequestDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(requestDate);
+    }
+
+    @Override
+    public String toString() {
+        return "Request{" +
+                "id=" + id +
+                ", client=" + client +
+                ", breed=" + breed +
+                ", gender=" + gender +
+                ", requestDate=" + getFormattedRequestDate() +
+                '}';
     }
 }
