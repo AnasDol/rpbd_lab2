@@ -109,7 +109,7 @@ public class ConsoleApplication {
                 addEntity(Participation.class);
                 break;
             case 9:
-                //enterPedigreeInformation();
+                addPedigree();
                 break;
             case 11:
                 updateEntity(Animal.class);
@@ -466,6 +466,7 @@ public class ConsoleApplication {
             case 6 -> showList(Exhibition.class);
             case 7 -> showList(Request.class);
             case 8 -> showList(Participation.class);
+            case 9 -> printFamilyTree(selectEntity(Animal.class), "");
         }
 
     }
@@ -484,5 +485,82 @@ public class ConsoleApplication {
         for (T entity : list) {
             System.out.println(entity);
         }
+    }
+
+    public static void printFamilyTree(Animal animal, String prefix) {
+        if (animal == null) {
+            return;
+        }
+
+        System.out.println(prefix + "+-- " + animal.getName());
+
+        String newPrefix = prefix.isEmpty() ? "    " : prefix + "|   ";
+
+        if (animal.getMother() != null) {
+            printFamilyTree(animal.getMother(), newPrefix);
+        }
+
+        if (animal.getFather() != null) {
+            printFamilyTree(animal.getFather(), newPrefix);
+        }
+    }
+
+    public static void addPedigree() {
+
+        System.out.println("Animal:");
+        Animal animal = selectEntity(Animal.class);
+        assert animal != null;
+
+        System.out.println("Pedigree:");
+        printFamilyTree(animal, "");
+
+        GenericDao<Animal> dao = new GenericDao<>(Animal.class);
+
+        List<Animal> females = dao.findAll();
+        females.removeIf(anim -> anim.getGender() == Gender.MALE || anim.getId() == animal.getId());
+
+        List<Animal> males = dao.findAll();
+        males.removeIf(anim -> anim.getGender() == Gender.FEMALE || anim.getId() == animal.getId());
+
+        System.out.println("Mother:");
+        int index = 1;
+        for (Animal anim : females) {
+            System.out.println(index + ". " + anim);
+            index++;
+        }
+
+        System.out.print("Select:\n> ");
+        int choice = scanner.nextInt();
+        scanner.nextLine(); // consume newline
+
+        try {
+            animal.setMother(females.get(choice - 1));
+            dao.save(animal);
+
+        } catch (IndexOutOfBoundsException ex) {
+            System.out.println("Invalid choice.");
+        }
+
+        System.out.println("Father:");
+        index = 1;
+        for (Animal anim : males) {
+            System.out.println(index + ". " + anim);
+            index++;
+        }
+
+        System.out.print("Select:\n> ");
+        choice = scanner.nextInt();
+        scanner.nextLine(); // consume newline
+
+        try {
+            animal.setFather(males.get(choice - 1));
+            dao.save(animal);
+        } catch (IndexOutOfBoundsException ex) {
+            System.out.println("Invalid choice.");
+        }
+
+        System.out.println("Pedigree:");
+        printFamilyTree(animal, "");
+
     }
 }

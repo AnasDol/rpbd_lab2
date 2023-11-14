@@ -4,24 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9f45ff65-1094-4a79-b91e-94ae311c7f88" name="Changes" comment="showList added">
+    <list default="true" id="9f45ff65-1094-4a79-b91e-94ae311c7f88" name="Changes" comment="Participation works">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ConsoleApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ConsoleApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/AnimalDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/BreedDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/ClientDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/EmployeeDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/ExhibitionDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/ParticipationDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/ParticipationDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/PositionDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/RequestDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/Animal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Animal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/Exhibition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Exhibition.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/Participation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Participation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/ParticipationId.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/ParticipationId.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/services/BreedService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/HibernateSessionFactoryUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/HibernateSessionFactoryUtil.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +89,7 @@
       <updated>1698560853918</updated>
       <workItem from="1698560856548" duration="14598000" />
       <workItem from="1699100124100" duration="623000" />
-      <workItem from="1699683490744" duration="33204000" />
+      <workItem from="1699683490744" duration="35827000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <created>1698563452216</created>
@@ -183,7 +168,14 @@
       <option name="project" value="LOCAL" />
       <updated>1699949616740</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Participation works">
+      <created>1699960654591</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1699960654591</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -213,6 +205,7 @@
     <MESSAGE value="animal &amp; client works" />
     <MESSAGE value="exhibition &amp; request works" />
     <MESSAGE value="showList added" />
-    <option name="LAST_COMMIT_MESSAGE" value="showList added" />
+    <MESSAGE value="Participation works" />
+    <option name="LAST_COMMIT_MESSAGE" value="Participation works" />
   </component>
 </project>
