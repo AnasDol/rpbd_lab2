@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9f45ff65-1094-4a79-b91e-94ae311c7f88" name="Changes" comment="animal &amp; client works">
+    <list default="true" id="9f45ff65-1094-4a79-b91e-94ae311c7f88" name="Changes" comment="exhibition &amp; request works">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ConsoleApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ConsoleApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/Request.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Request.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,7 +89,7 @@
       <updated>1698560853918</updated>
       <workItem from="1698560856548" duration="14598000" />
       <workItem from="1699100124100" duration="623000" />
-      <workItem from="1699683490744" duration="26452000" />
+      <workItem from="1699683490744" duration="27092000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <created>1698563452216</created>
@@ -155,7 +154,14 @@
       <option name="project" value="LOCAL" />
       <updated>1699793071857</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="exhibition &amp; request works">
+      <created>1699948878331</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1699948878331</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -183,6 +189,7 @@
     <MESSAGE value="unified console menu functions" />
     <MESSAGE value="position &amp; employee works" />
     <MESSAGE value="animal &amp; client works" />
-    <option name="LAST_COMMIT_MESSAGE" value="animal &amp; client works" />
+    <MESSAGE value="exhibition &amp; request works" />
+    <option name="LAST_COMMIT_MESSAGE" value="exhibition &amp; request works" />
   </component>
 </project>

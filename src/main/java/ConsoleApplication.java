@@ -420,6 +420,24 @@ public class ConsoleApplication {
             return;
         }
 
+        switch (option) {
+            case 1 -> showList(Animal.class);
+            case 2 -> showList(Breed.class);
+            case 3 -> showList(Client.class);
+            case 4 -> showList(Employee.class);
+            case 5 -> showList(Position.class);
+            case 6 -> showList(Exhibition.class);
+            case 7 -> showList(Request.class);
+        }
+
+    }
+
+    private static <T extends MyEntity> void showList(Class<T> entityClass) {
+        GenericDao<T> dao = new GenericDao<>(entityClass);
+        List<T> list = dao.findAll();
+        for (T entity : list) {
+            System.out.println(entity);
+        }
     }
 
 
