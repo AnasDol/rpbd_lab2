@@ -155,4 +155,11 @@ public class Animal implements MyEntity {
                 ", father=" + father +
                 '}';
     }
+
+    public String toShortString() {
+        return "Animal{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

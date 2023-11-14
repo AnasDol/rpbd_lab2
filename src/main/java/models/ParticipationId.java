@@ -1,40 +1,48 @@
 package models;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Embeddable
 public class ParticipationId implements Serializable {
 
-    @Column(name = "animal_id")
-    private int animalId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "animal_id")
+    private Animal animal;
 
-    @Column(name = "exhibition_id")
-    private int exhibitionId;
-
-    public ParticipationId(int animalId, int exhibitionId) {
-        this.animalId = animalId;
-        this.exhibitionId = exhibitionId;
-    }
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "exhibition_id")
+    private Exhibition exhibition;
 
     public ParticipationId() {
-
     }
 
-    public int getAnimalId() {
-        return animalId;
+    public ParticipationId(Animal animal, Exhibition exhibition) {
+        this.animal = animal;
+        this.exhibition = exhibition;
     }
 
-    public void setAnimalId(int animalId) {
-        this.animalId = animalId;
+    public Animal getAnimal() {
+        return animal;
     }
 
-    public int getExhibitionId() {
-        return exhibitionId;
+    public void setAnimal(Animal animal) {
+        this.animal = animal;
     }
 
-    public void setExhibitionId(int exhibitionId) {
-        this.exhibitionId = exhibitionId;
+    public Exhibition getExhibition() {
+        return exhibition;
+    }
+
+    public void setExhibition(Exhibition exhibition) {
+        this.exhibition = exhibition;
+    }
+
+    @Override
+    public String toString() {
+        return "PositionId{" +
+                "animal=" + animal.toShortString() +
+                ", exhibition='" + exhibition.toShortString() + '\'' +
+                '}';
     }
 }

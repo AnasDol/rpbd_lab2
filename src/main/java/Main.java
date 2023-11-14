@@ -1,9 +1,6 @@
 import dao.*;
 import models.*;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import services.BreedService;
 import utils.HibernateSessionFactoryUtil;
 
 import java.math.BigDecimal;

@@ -1,6 +1,6 @@
 import dao.GenericDao;
+import dao.ParticipationDao;
 import models.*;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import utils.HibernateSessionFactoryUtil;
 
@@ -106,7 +106,7 @@ public class ConsoleApplication {
                 addEntity(Request.class);
                 break;
             case 8:
-                //enterAnimalParticipationData();
+                addEntity(Participation.class);
                 break;
             case 9:
                 //enterPedigreeInformation();
@@ -133,7 +133,7 @@ public class ConsoleApplication {
                 updateEntity(Request.class);
                 break;
             case 18:
-                //updateAnimalParticipationData();
+                updateEntity(Participation.class);
                 break;
             case 21:
                 deleteEntity(Animal.class);
@@ -157,7 +157,7 @@ public class ConsoleApplication {
                 deleteEntity(Request.class);
                 break;
             case 28:
-                //deleteAnimalParticipationData();
+                deleteEntity(Participation.class);
                 break;
             case -1:
                 HibernateSessionFactoryUtil.shutdown();
@@ -253,15 +253,6 @@ public class ConsoleApplication {
 
     }
 
-    private static void enterPositionDetails(Position position) {
-
-        System.out.println("Enter Position details.");
-
-        System.out.print("Name: ");
-        position.setName(scanner.nextLine());
-
-    }
-
     private static void enterEmployeeDetails(Employee employee) {
 
         System.out.println("Enter Employee details.");
@@ -296,10 +287,38 @@ public class ConsoleApplication {
         System.out.print("Address: ");
         exhibition.setAddress(scanner.nextLine());
 
-        System.out.println("Date [dd.mm.yyyy]: ");
+        System.out.print("Date [dd.mm.yyyy]: ");
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         Date date = format.parse(scanner.nextLine());
         exhibition.setExhibitionDate(date);
+
+    }
+
+    private static void enterPositionDetails(Position position) {
+
+        System.out.println("Enter Position details.");
+
+        System.out.print("Name: ");
+        position.setName(scanner.nextLine());
+
+    }
+
+    private static void enterParticipationDetails(Participation participation) {
+
+        System.out.println("Enter Participation details.");
+
+        ParticipationId id = new ParticipationId();
+
+        System.out.println("Animal: ");
+        id.setAnimal(selectEntity(Animal.class));
+
+        System.out.println("Exhibition: ");
+        id.setExhibition(selectEntity(Exhibition.class));
+
+        participation.setId(id);
+
+        System.out.print("Reward: ");
+        participation.setReward(scanner.nextLine());
 
     }
 
@@ -317,7 +336,7 @@ public class ConsoleApplication {
         String genderInput = scanner.nextLine();
         request.setGender(Gender.fromString(genderInput.toLowerCase()));
 
-        System.out.println("Date [dd.mm.yyyy]: ");
+        System.out.print("Date [dd.mm.yyyy]: ");
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         Date date = format.parse(scanner.nextLine());
         request.setRequestDate(date);
@@ -331,6 +350,7 @@ public class ConsoleApplication {
         else if (entityClass == Client.class) enterClientDetails((Client)entity);
         else if (entityClass == Employee.class) enterEmployeeDetails((Employee)entity);
         else if (entityClass == Exhibition.class) enterExhibitionDetails((Exhibition) entity);
+        else if (entityClass == Participation.class) enterParticipationDetails((Participation) entity);
         else if (entityClass == Position.class) enterPositionDetails((Position)entity);
         else if (entityClass == Request.class) enterRequestDetails((Request) entity);
 
@@ -354,8 +374,14 @@ public class ConsoleApplication {
             return;
         }
 
-        GenericDao<T> dao = new GenericDao<>(entityClass);
-        dao.save(newEntity);
+        if (entityClass != Participation.class) {
+            GenericDao<T> dao = new GenericDao<>(entityClass);
+            dao.save(newEntity);
+        } else {
+            ParticipationDao dao = new ParticipationDao();
+            dao.save((Participation) newEntity);
+        }
+
 
     }
 
@@ -369,14 +395,18 @@ public class ConsoleApplication {
         System.out.println("selected: " + selected);
 
         try {
-            //enterBreedDetails(selected);
             enterDetails(selected, entityClass);
         } catch (Exception e) {
             System.out.println("Failed to update data. There may have been an input error.");
         }
 
-        GenericDao<T> dao = new GenericDao<>(entityClass);
-        dao.update(selected);
+        if (entityClass != Participation.class) {
+            GenericDao<T> dao = new GenericDao<>(entityClass);
+            dao.update(selected);
+        } else {
+            ParticipationDao dao = new ParticipationDao();
+            dao.update((Participation)selected);
+        }
 
     }
 
@@ -389,8 +419,15 @@ public class ConsoleApplication {
         }
         System.out.println("selected: " + selected);
 
-        GenericDao<T> dao = new GenericDao<>(entityClass);
-        dao.delete(selected);
+        if (entityClass != Participation.class) {
+            GenericDao<T> dao = new GenericDao<>(entityClass);
+            dao.delete(selected);
+        } else {
+            ParticipationDao dao = new ParticipationDao();
+            dao.delete((Participation)selected);
+        }
+
+
     }
 
     private static void showData() {
@@ -428,29 +465,24 @@ public class ConsoleApplication {
             case 5 -> showList(Position.class);
             case 6 -> showList(Exhibition.class);
             case 7 -> showList(Request.class);
+            case 8 -> showList(Participation.class);
         }
 
     }
 
     private static <T extends MyEntity> void showList(Class<T> entityClass) {
-        GenericDao<T> dao = new GenericDao<>(entityClass);
-        List<T> list = dao.findAll();
+
+        List<T> list;
+        if (entityClass != Participation.class) {
+            GenericDao<T> dao = new GenericDao<>(entityClass);
+            list = dao.findAll();
+        } else {
+            ParticipationDao dao = new ParticipationDao();
+            list = (List<T>)dao.findAll();
+        }
+
         for (T entity : list) {
             System.out.println(entity);
-        }
-    }
-
-
-    private static void showAnimalList() {
-        try (Session session = sessionFactory.openSession()) {
-            List<Animal> animals = session.createQuery("FROM Animal", Animal.class).list();
-
-            System.out.println("Animal List:");
-            for (Animal animal : animals) {
-                System.out.println(animal);
-            }
-        } catch (Exception e) {
-            System.out.println("Error retrieving Animal list: " + e.getMessage());
         }
     }
 }

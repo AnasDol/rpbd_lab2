@@ -73,4 +73,13 @@ public class Exhibition implements MyEntity {
                 ", exhibitionDate=" + getFormattedExhibitionDate() +
                 '}';
     }
+
+    public String toShortString() {
+        return "Exhibition{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
+
 }

@@ -36,6 +36,7 @@ public class HibernateSessionFactoryUtil {
                         .addAnnotatedClass(Employee.class)
                         .addAnnotatedClass(Animal.class)
                         .addAnnotatedClass(Participation.class)
+                        .addAnnotatedClass(ParticipationId.class)
                         .addAnnotatedClass(Request.class)
                         .addAnnotatedClass(GenderType.class);
 
