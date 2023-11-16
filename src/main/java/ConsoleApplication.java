@@ -8,9 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class ConsoleApplication {
 
@@ -81,101 +79,45 @@ public class ConsoleApplication {
     private static void proceed(int option) {
 
         switch (option) {
-            case 0:
-                showData();
-                break;
-            case 1:
-                addEntity(Animal.class);
-                break;
-            case 2:
-                addEntity(Breed.class);
-                break;
-            case 3:
-                addEntity(Client.class);
-                break;
-            case 4:
-                addEntity(Employee.class);
-                break;
-            case 5:
-                addEntity(Position.class);
-                break;
-            case 6:
-                addEntity(Exhibition.class);
-                break;
-            case 7:
-                addEntity(Request.class);
-                break;
-            case 8:
-                addEntity(Participation.class);
-                break;
-            case 9:
-                addPedigree();
-                break;
-            case 11:
-                updateEntity(Animal.class);
-                break;
-            case 12:
-                updateEntity(Breed.class);
-                break;
-            case 13:
-                updateEntity(Client.class);
-                break;
-            case 14:
-                updateEntity(Employee.class);
-                break;
-            case 15:
-                updateEntity(Position.class);
-                break;
-            case 16:
-                updateEntity(Exhibition.class);
-                break;
-            case 17:
-                updateEntity(Request.class);
-                break;
-            case 18:
-                updateEntity(Participation.class);
-                break;
-            case 21:
-                deleteEntity(Animal.class);
-                break;
-            case 22:
-                deleteEntity(Breed.class);
-                break;
-            case 23:
-                deleteEntity(Client.class);
-                break;
-            case 24:
-                deleteEntity(Employee.class);
-                break;
-            case 25:
-                deleteEntity(Position.class);
-                break;
-            case 26:
-                deleteEntity(Exhibition.class);
-                break;
-            case 27:
-                deleteEntity(Request.class);
-                break;
-            case 28:
-                deleteEntity(Participation.class);
-                break;
-            case -1:
+            case 0 -> showData();
+            case 1 -> addEntity(Animal.class);
+            case 2 -> addEntity(Breed.class);
+            case 3 -> addEntity(Client.class);
+            case 4 -> addEntity(Employee.class);
+            case 5 -> addEntity(Position.class);
+            case 6 -> addEntity(Exhibition.class);
+            case 7 -> addEntity(Request.class);
+            case 8 -> addEntity(Participation.class);
+            case 9 -> addPedigree();
+            case 11 -> updateEntity(Animal.class);
+            case 12 -> updateEntity(Breed.class);
+            case 13 -> updateEntity(Client.class);
+            case 14 -> updateEntity(Employee.class);
+            case 15 -> updateEntity(Position.class);
+            case 16 -> updateEntity(Exhibition.class);
+            case 17 -> updateEntity(Request.class);
+            case 18 -> updateEntity(Participation.class);
+            case 21 -> deleteEntity(Animal.class);
+            case 22 -> deleteEntity(Breed.class);
+            case 23 -> deleteEntity(Client.class);
+            case 24 -> deleteEntity(Employee.class);
+            case 25 -> deleteEntity(Position.class);
+            case 26 -> deleteEntity(Exhibition.class);
+            case 27 -> deleteEntity(Request.class);
+            case 28 -> deleteEntity(Participation.class);
+            case -1 -> {
                 HibernateSessionFactoryUtil.shutdown();
                 System.exit(0);
-                break;
-            default:
-                System.out.println("Invalid choice.");
+            }
+            default -> System.out.println("Invalid choice.");
         }
 
     }
 
-    private static <T extends MyEntity> T selectEntity(Class<T> entityClass) {
-
-        GenericDao<T> dao = new GenericDao<>(entityClass);
-        List<T> entities = dao.findAll();
+    private static <T extends MyEntity> T select(List<T> list) {
 
         int index = 1;
-        for (T entity : entities) {
+        for (T entity : list) {
             System.out.println(index + ". " + entity);
             index++;
         }
@@ -185,12 +127,21 @@ public class ConsoleApplication {
         scanner.nextLine(); // consume newline
 
         try {
-            return entities.get(choice - 1);
+            return list.get(choice - 1);
 
         } catch (IndexOutOfBoundsException ex) {
             System.out.println("Invalid choice.");
             return null;
         }
+
+    }
+
+    private static <T extends MyEntity> T selectEntity(Class<T> entityClass) {
+
+        GenericDao<T> dao = new GenericDao<>(entityClass);
+        List<T> entities = dao.findAll();
+
+        return select(entities);
 
     }
 
@@ -219,11 +170,27 @@ public class ConsoleApplication {
         animal.setClient(selectEntity(Client.class));
 
         System.out.println("Vet:");
-        animal.setVet(selectEntity(Employee.class)); // временно
+        //animal.setVet(selectEntity(Employee.class)); // временно
+        GenericDao<Employee> dao = new GenericDao<>(Employee.class);
+        List<Employee> vets = dao.findAll();
+        vets.removeIf(employee -> employee.getPosition().getId() != findVet().getId());
+        Employee vet = select(vets);
+        animal.setVet(vet);
 
         animal.setMother(null);
         animal.setFather(null);
 
+    }
+
+    private static Position findVet() {
+        GenericDao<Position> dao = new GenericDao<>(Position.class);
+        List<Position> positions = dao.findAll();
+//        try {
+//            Position vet = new Position("vet");
+//            dao.save(vet);
+//        } catch (Exception ignored) {}
+        Position vet = positions.stream().filter(position -> position.getName().equals("vet")).findFirst().get();
+        return vet;
     }
 
     private static void enterBreedDetails(Breed breed) {
@@ -465,11 +432,14 @@ public class ConsoleApplication {
             case 5 -> showList(Position.class);
             case 6 -> showList(Exhibition.class);
             case 7 -> showList(Request.class);
-            case 8 -> showList(Participation.class);
+            case 8 -> showParticipationsForAnimal(selectEntity(Animal.class));
             case 9 -> printFamilyTree(selectEntity(Animal.class), "");
+            case 10 -> showAnimalsForRequest(selectEntity(Request.class));
         }
 
     }
+
+
 
     private static <T extends MyEntity> void showList(Class<T> entityClass) {
 
@@ -485,6 +455,36 @@ public class ConsoleApplication {
         for (T entity : list) {
             System.out.println(entity);
         }
+    }
+
+    private static void showParticipationsForAnimal(Animal selected) {
+
+        assert selected != null;
+
+        ParticipationDao dao = new ParticipationDao();
+        List<Participation> list = dao.findAll();
+
+        list.removeIf(part -> part.getId().getAnimal().getId() != selected.getId());
+
+        for (Participation entity : list) {
+            System.out.println(entity.getId().getExhibition().toShortString() + ", reward: " + entity.getReward());
+        }
+
+    }
+
+    private static void showAnimalsForRequest(Request selected) {
+
+        assert selected != null;
+
+        GenericDao<Animal> dao = new GenericDao<>(Animal.class);
+        List<Animal> list = dao.findAll();
+
+        list.removeIf(anim -> (anim.getGender() != selected.getGender() || anim.getBreed().getId() != selected.getBreed().getId()));
+
+        for (Animal entity : list) {
+            System.out.println(entity);
+        }
+
     }
 
     public static void printFamilyTree(Animal animal, String prefix) {
@@ -535,7 +535,7 @@ public class ConsoleApplication {
 
         try {
             animal.setMother(females.get(choice - 1));
-            dao.save(animal);
+            dao.update(animal);
 
         } catch (IndexOutOfBoundsException ex) {
             System.out.println("Invalid choice.");
@@ -554,7 +554,7 @@ public class ConsoleApplication {
 
         try {
             animal.setFather(males.get(choice - 1));
-            dao.save(animal);
+            dao.update(animal);
         } catch (IndexOutOfBoundsException ex) {
             System.out.println("Invalid choice.");
         }

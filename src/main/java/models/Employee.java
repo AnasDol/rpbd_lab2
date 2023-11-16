@@ -120,4 +120,12 @@ public class Employee implements MyEntity {
                 ", salary=" + salary +
                 '}';
     }
+
+    public String toShortString() {
+        return "Employee{" +
+                "id=" + id +
+                ", lastName='" + lastName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                '}';
+    }
 }

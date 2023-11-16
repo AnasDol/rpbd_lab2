@@ -149,10 +149,10 @@ public class Animal implements MyEntity {
                 ", gender=" + gender +
                 ", breed=" + breed +
                 ", appearance='" + appearance + '\'' +
-                ", client=" + client +
-                ", vet=" + vet +
-                ", mother=" + mother +
-                ", father=" + father +
+                ", client=" + client.toShortString() +
+                ", vet=" + vet.toShortString() +
+                ", mother=" + ((mother != null) ? mother.toShortString() : "null") +
+                ", father=" + ((father != null) ? father.toShortString() : "null") +
                 '}';
     }
 

@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9f45ff65-1094-4a79-b91e-94ae311c7f88" name="Changes" comment="Participation works">
+    <list default="true" id="9f45ff65-1094-4a79-b91e-94ae311c7f88" name="Changes" comment="Pedigree added">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ConsoleApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ConsoleApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/Animal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Animal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Employee.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,7 +92,8 @@
       <updated>1698560853918</updated>
       <workItem from="1698560856548" duration="14598000" />
       <workItem from="1699100124100" duration="623000" />
-      <workItem from="1699683490744" duration="35827000" />
+      <workItem from="1699683490744" duration="38330000" />
+      <workItem from="1700110981397" duration="6270000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <created>1698563452216</created>
@@ -175,7 +179,14 @@
       <option name="project" value="LOCAL" />
       <updated>1699960654591</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Pedigree added">
+      <created>1699963706814</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1699963706814</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -206,6 +217,7 @@
     <MESSAGE value="exhibition &amp; request works" />
     <MESSAGE value="showList added" />
     <MESSAGE value="Participation works" />
-    <option name="LAST_COMMIT_MESSAGE" value="Participation works" />
+    <MESSAGE value="Pedigree added" />
+    <option name="LAST_COMMIT_MESSAGE" value="Pedigree added" />
   </component>
 </project>

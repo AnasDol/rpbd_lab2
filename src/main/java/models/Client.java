@@ -79,4 +79,12 @@ public class Client implements MyEntity {
                 ", address='" + address + '\'' +
                 '}';
     }
+
+    public String toShortString() {
+        return "Client{" +
+                "id=" + id +
+                ", lastName='" + lastName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                '}';
+    }
 }
